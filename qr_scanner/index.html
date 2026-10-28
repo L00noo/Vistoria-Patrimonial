@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Leitor QR ZXing</title>
+  <style>
+    body { margin: 0; font: 14px system-ui, sans-serif; color: #222; }
+    .wrap { padding: 8px; border: 1px solid #ddd; border-radius: 10px; }
+    video { width: 100%; max-height: 360px; object-fit: cover; background: #111; border-radius: 8px; }
+    button { border: 0; border-radius: 8px; padding: 10px 14px; margin: 6px 6px 6px 0; cursor: pointer; }
+    #start { background: #1769aa; color: white; }
+    #stop { background: #e8e8e8; color: #222; }
+    #status { margin: 6px 0; }
+    #result { font-weight: 600; overflow-wrap: anywhere; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div id="status">Pronto para iniciar a câmera.</div>
+    <video id="video" muted playsinline></video>
+    <div>
+      <button id="start">Ligar câmera e ler QR</button>
+      <button id="stop">Parar câmera</button>
+    </div>
+    <div id="result"></div>
+  </div>
+  <script type="module">
+    import { BrowserQRCodeReader } from "https://esm.sh/@zxing/browser@0.1.5";
+
+    const video = document.getElementById("video");
+    const status = document.getElementById("status");
+    const result = document.getElementById("result");
+    const startButton = document.getElementById("start");
+    const stopButton = document.getElementById("stop");
+    let reader = null;
+    let controls = null;
+    let lastSent = "";
+
+    function sendValue(value) {
+      window.parent.postMessage({
+        isStreamlitMessage: true,
+        type: "streamlit:setComponentValue",
+        value: value
+      }, "*");
+    }
+    function setFrameHeight() {
+      window.parent.postMessage({
+        isStreamlitMessage: true,
+        type: "streamlit:setFrameHeight",
+        height: document.body.scrollHeight
+      }, "*");
+    }
+    window.addEventListener("message", (event) => {
+      if (event.data && event.data.type === "streamlit:render") {
+        window.parent.postMessage({ isStreamlitMessage: true, type: "streamlit:componentReady", apiVersion: 1 }, "*");
+        setFrameHeight();
+      }
+    });
+    // Also announce readiness after the page is loaded.
+    window.parent.postMessage({ isStreamlitMessage: true, type: "streamlit:componentReady", apiVersion: 1 }, "*");
+    setFrameHeight();
+
+    async function stopCamera() {
+      try { if (controls) controls.stop(); } catch (_) {}
+      controls = null;
+      try {
+        if (video.srcObject) {
+          video.srcObject.getTracks().forEach(track => track.stop());
+          video.srcObject = null;
+        }
+      } catch (_) {}
+      status.textContent = "Câmera parada.";
+    }
+
+    startButton.addEventListener("click", async () => {
+      result.textContent = "";
+      lastSent = "";
+      status.textContent = "Solicitando permissão para usar a câmera…";
+      try {
+        reader = new BrowserQRCodeReader();
+        controls = await reader.decodeFromVideoDevice(undefined, video, (res, err, ctrl) => {
+          if (ctrl) controls = ctrl;
+          if (res) {
+            const value = res.getText().trim();
+            if (value && value !== lastSent) {
+              lastSent = value;
+              result.textContent = "Código lido: " + value;
+              status.textContent = "Leitura concluída. Para ler outro item, inicie novamente.";
+              sendValue(value);
+              stopCamera();
+            }
+          }
+        });
+        status.textContent = "Câmera ativa. Aponte para um QR Code.";
+      } catch (err) {
+        status.textContent = "Não foi possível abrir a câmera. Verifique a permissão e tente novamente.";
+        result.textContent = String(err);
+      }
+      setFrameHeight();
+    });
+    stopButton.addEventListener("click", stopCamera);
+  </script>
+</body>
+</html>
