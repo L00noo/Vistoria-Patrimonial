@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="fluxo-vistoria.png" alt="Fluxo da Vistoria Patrimonial" width="100%">
+</p>
+
 # Vistoria-Patrimonial
 Inspeção técnica detalhada que verifica, cataloga e documenta o estado de conservação, a existência e as condições físicas de bens móveis, imóveis e ativos de uma empresa ou pessoa física
 # Vistoria Patrimonial — Protótipo de Portfólio
