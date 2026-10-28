@@ -120,7 +120,7 @@ A arquitetura definitiva depende do ambiente, da política de TI, da quantidade 
 
 Este repositório apresenta a ideia e a arquitetura inicial do projeto. Para avaliar uma implementação plena, adaptar o sistema a um ambiente de trabalho ou discutir requisitos específicos, entre em contato:
 
-- **Responsável:** Luan Carlos Pinheiro Reis
+- **Responsável:** Luan Carlos
 - **E-mail:** `luandigitalversion@gmail.com`
 
 ## Status
