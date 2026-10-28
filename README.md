@@ -127,10 +127,3 @@ Este repositório apresenta a ideia e a arquitetura inicial do projeto. Para ava
 
 **Versão 1 — protótipo demonstrativo em desenvolvimento.**  
 A publicação deste código não representa certificação de segurança, garantia de disponibilidade nem adequação automática a ambientes institucionais.
-
-## Arquitetura do projeto
-
-O diagrama abaixo apresenta o fluxo de funcionamento do protótipo, desde a leitura do QR Code até a consulta ao banco de dados e a geração do relatório.
-
-![Diagrama do fluxo de funcionamento da Vistoria Patrimonial](docs/fluxo-vistoria.png)
-
