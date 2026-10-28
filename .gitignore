@@ -1,0 +1,10 @@
+
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.streamlit/secrets.toml
+patrimonio_demo.db
+*.sqlite
+*.sqlite3
+.DS_Store
