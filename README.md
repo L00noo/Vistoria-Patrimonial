@@ -122,9 +122,6 @@ Este repositório apresenta a ideia e a arquitetura inicial do projeto. Para ava
 
 - **Responsável:** Luan Carlos Pinheiro Reis
 - **E-mail:** `luandigitalversion@gmail.com`
-- **Telefone:** inserir o número profissional que deseja divulgar
-
-> Antes de publicar, substitua `SEU-USUARIO` nos comandos e confirme quais dados de contato deseja tornar públicos no GitHub.
 
 ## Status
 
