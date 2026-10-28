@@ -166,10 +166,12 @@ def build_pdf(inspection, department_name, rows):
     buffer.seek(0)
     return buffer.getvalue()
 
-
-def scanner_component(key):
-    # Streamlit loads this local component page; the page returns the decoded value to Python.
-    return components.declare_component("zxing_qr_scanner", path=str(SCANNER_DIR), key=key)()
+def scanner_component(key="scanner_v1"):
+    scanner = components.declare_component(
+        "zxing_qr_scanner",
+        path=str(SCANNER_DIR)
+    )
+    return scanner(key=key)
 
 
 init_db()
